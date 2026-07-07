@@ -29,15 +29,15 @@ opt.ttimeoutlen = 10
 -----------------------------------------------------------
 -- UI
 -----------------------------------------------------------
-
 opt.termguicolors = true
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
 opt.cursorline = true
-opt.colorcolumn = "80"
+-- opt.colorcolumn = "80"
 opt.showmode = false
 opt.laststatus = 3
+opt.showtabline = 2
 opt.cmdheight = 1
 opt.scrolloff = 8
 opt.sidescrolloff = 8
@@ -138,6 +138,19 @@ opt.wildignore = {
 
 local opts = { noremap = true, silent = true }
 
+-- Buffer navigation without bufferline
+keymap.set("n", "H", "<cmd>bprevious<CR>", {
+    noremap = true,
+    silent = true,
+    desc = "Previous buffer",
+})
+
+keymap.set("n", "L", "<cmd>bnext<CR>", {
+    noremap = true,
+    silent = true,
+    desc = "Next buffer",
+})
+
 -- Clear search highlight
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", opts)
 
@@ -201,4 +214,47 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     command = "checktime",
 })
 
+-----------------------------------------------------------
+-- LSP Keymaps
+-----------------------------------------------------------
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    desc = "LSP keymaps",
+    group = vim.api.nvim_create_augroup("user_lsp_keymaps", { clear = true }),
+    callback = function(event)
+        local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, {
+                buffer = event.buf,
+                silent = true,
+                desc = desc,
+            })
+        end
+
+        local ok, telescope_builtin = pcall(require, "telescope.builtin")
+
+        if ok then
+            map("n", "gd", telescope_builtin.lsp_definitions, "Go to definition")
+            map("n", "gi", telescope_builtin.lsp_implementations, "Go to implementation")
+            map("n", "gr", telescope_builtin.lsp_references, "Go to references")
+            map("n", "<leader>D", telescope_builtin.lsp_type_definitions, "Type definition")
+        else
+            map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+            map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+            map("n", "gr", vim.lsp.buf.references, "Go to references")
+            map("n", "<leader>D", vim.lsp.buf.type_definition, "Type definition")
+        end
+
+        map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+        map("n", "K", vim.lsp.buf.hover, "Hover documentation")
+        map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
+
+        map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+        map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+        map("n", "<leader>d", vim.diagnostic.open_float, "Line diagnostic")
+        map("n", "<leader>q", vim.diagnostic.setloclist, "Diagnostic list")
+    end,
+})
+
 require("config.lazy")
+require("codelens")
