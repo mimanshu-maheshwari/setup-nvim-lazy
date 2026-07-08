@@ -1,6 +1,7 @@
 return {
     {
         "mfussenegger/nvim-dap",
+        lazy = false,
         keys = {
             { "<F5>",       function() require("dap").continue() end,          desc = "Debug: Start/Continue" },
             { "<F10>",      function() require("dap").step_over() end,         desc = "Debug: Step Over" },
@@ -47,6 +48,7 @@ return {
 
     {
         "rcarriga/nvim-dap-ui",
+        lazy = false,
         dependencies = {
             "mfussenegger/nvim-dap",
             "nvim-neotest/nvim-nio",

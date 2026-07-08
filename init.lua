@@ -50,9 +50,9 @@ opt.winborder = "rounded"
 -- Tabs / Indentation
 -----------------------------------------------------------
 
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.softtabstop = 4
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.softtabstop = 2
 opt.expandtab = true
 opt.shiftround = true
 opt.smartindent = true
@@ -137,19 +137,6 @@ opt.wildignore = {
 -----------------------------------------------------------
 
 local opts = { noremap = true, silent = true }
-
--- Buffer navigation without bufferline
-keymap.set("n", "H", "<cmd>bprevious<CR>", {
-    noremap = true,
-    silent = true,
-    desc = "Previous buffer",
-})
-
-keymap.set("n", "L", "<cmd>bnext<CR>", {
-    noremap = true,
-    silent = true,
-    desc = "Next buffer",
-})
 
 -- Clear search highlight
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", opts)
@@ -256,5 +243,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
-require("config.lazy")
+require("config.folds")
 require("codelens")
+require("config.lazy")
