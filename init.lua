@@ -164,11 +164,11 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- Better paste in visual mode: paste without replacing register
-keymap.set("x", "<leader>p", [["_dP]], opts)
+keymap.set("x", "<leader>p", [["_dP]], { noremap = true, silent = true, desc = "Paste without overwriting register" })
 
 -- Copy to system clipboard explicitly
-keymap.set({ "n", "v" }, "<leader>y", [["+y]], opts)
-keymap.set("n", "<leader>Y", [["+Y]], opts)
+keymap.set({ "n", "v" }, "<leader>y", [["+y]], { noremap = true, silent = true, desc = "Copy to system clipboard" })
+keymap.set("n", "<leader>Y", [["+Y]], { noremap = true, silent = true, desc = "Copy line to system clipboard" })
 
 -----------------------------------------------------------
 -- Autocommands
@@ -223,23 +223,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
             map("n", "gd", telescope_builtin.lsp_definitions, "Go to definition")
             map("n", "gi", telescope_builtin.lsp_implementations, "Go to implementation")
             map("n", "gr", telescope_builtin.lsp_references, "Go to references")
-            map("n", "<leader>D", telescope_builtin.lsp_type_definitions, "Type definition")
+            map("n", "<leader>lD", telescope_builtin.lsp_type_definitions, "Type definition")
         else
             map("n", "gd", vim.lsp.buf.definition, "Go to definition")
             map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
             map("n", "gr", vim.lsp.buf.references, "Go to references")
-            map("n", "<leader>D", vim.lsp.buf.type_definition, "Type definition")
+            map("n", "<leader>lD", vim.lsp.buf.type_definition, "Type definition")
         end
 
         map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
         map("n", "K", vim.lsp.buf.hover, "Hover documentation")
-        map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+        map("n", "<leader>lr", vim.lsp.buf.rename, "Rename symbol")
         map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
 
         map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
         map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-        map("n", "<leader>d", vim.diagnostic.open_float, "Line diagnostic")
-        map("n", "<leader>q", vim.diagnostic.setloclist, "Diagnostic list")
+        map("n", "<leader>ld", vim.diagnostic.open_float, "Line diagnostic")
+        map("n", "<leader>lq", vim.diagnostic.setloclist, "Diagnostic list")
     end,
 })
 

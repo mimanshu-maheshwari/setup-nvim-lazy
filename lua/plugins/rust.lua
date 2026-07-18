@@ -111,25 +111,25 @@ return {
             })
           end
 
-          map("<leader>ct", crates.toggle, "Crates: Toggle")
-          map("<leader>cr", crates.reload, "Crates: Reload")
+          map("<leader>cct", crates.toggle, "Crates: Toggle")
+          map("<leader>ccr", crates.reload, "Crates: Reload")
 
-          map("<leader>cv", crates.show_versions_popup, "Crates: Versions")
-          map("<leader>cf", crates.show_features_popup, "Crates: Features")
-          map("<leader>cd", crates.show_dependencies_popup, "Crates: Dependencies")
+          map("<leader>ccv", crates.show_versions_popup, "Crates: Versions")
+          map("<leader>ccf", crates.show_features_popup, "Crates: Features")
+          map("<leader>ccd", crates.show_dependencies_popup, "Crates: Dependencies")
 
-          map("<leader>cu", crates.update_crate, "Crates: Update crate")
-          map("<leader>ca", crates.update_all_crates, "Crates: Update all")
-          map("<leader>cU", crates.upgrade_crate, "Crates: Upgrade crate")
-          map("<leader>cA", crates.upgrade_all_crates, "Crates: Upgrade all")
+          map("<leader>ccu", crates.update_crate, "Crates: Update crate")
+          map("<leader>cca", crates.update_all_crates, "Crates: Update all")
+          map("<leader>ccU", crates.upgrade_crate, "Crates: Upgrade crate")
+          map("<leader>ccA", crates.upgrade_all_crates, "Crates: Upgrade all")
 
-          map("<leader>cx", crates.expand_plain_crate_to_inline_table, "Crates: Expand crate")
-          map("<leader>cX", crates.extract_crate_into_table, "Crates: Extract crate")
+          map("<leader>ccx", crates.expand_plain_crate_to_inline_table, "Crates: Expand crate")
+          map("<leader>ccX", crates.extract_crate_into_table, "Crates: Extract crate")
 
-          map("<leader>cH", crates.open_homepage, "Crates: Homepage")
-          map("<leader>cR", crates.open_repository, "Crates: Repository")
-          map("<leader>cD", crates.open_documentation, "Crates: Documentation")
-          map("<leader>cC", crates.open_crates_io, "Crates: crates.io")
+          map("<leader>ccH", crates.open_homepage, "Crates: Homepage")
+          map("<leader>ccR", crates.open_repository, "Crates: Repository")
+          map("<leader>ccD", crates.open_documentation, "Crates: Documentation")
+          map("<leader>ccC", crates.open_crates_io, "Crates: crates.io")
         end,
 
         text = {
