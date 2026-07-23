@@ -103,11 +103,11 @@ opt.linebreak = true
 
 opt.list = true
 opt.listchars = {
-    tab = "» ",
-    trail = "·",
-    extends = "›",
-    precedes = "‹",
-    nbsp = "␣",
+  tab = "» ",
+  trail = "·",
+  extends = "›",
+  precedes = "‹",
+  nbsp = "␣",
 }
 
 -----------------------------------------------------------
@@ -115,21 +115,21 @@ opt.listchars = {
 -----------------------------------------------------------
 
 opt.wildignore = {
-    ".hg",
-    ".svn",
-    "*~",
-    "*.png",
-    "*.jpg",
-    "*.jpeg",
-    "*.gif",
-    "*.min.js",
-    "*.swp",
-    "*.o",
-    "vendor",
-    "dist",
-    "_site",
-    "node_modules",
-    ".git",
+  ".hg",
+  ".svn",
+  "*~",
+  "*.png",
+  "*.jpg",
+  "*.jpeg",
+  "*.gif",
+  "*.min.js",
+  "*.swp",
+  "*.o",
+  "vendor",
+  "dist",
+  "_site",
+  "node_modules",
+  ".git",
 }
 
 -----------------------------------------------------------
@@ -176,29 +176,29 @@ keymap.set("n", "<leader>Y", [["+Y]], { noremap = true, silent = true, desc = "C
 
 -- Highlight text after yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
-    desc = "Highlight yanked text",
-    callback = function()
-        vim.highlight.on_yank({ timeout = 150 })
-    end,
+  desc = "Highlight yanked text",
+  callback = function()
+    vim.highlight.on_yank({ timeout = 150 })
+  end,
 })
 
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd("BufReadPost", {
-    desc = "Return to last edit position",
-    callback = function()
-        local mark = vim.api.nvim_buf_get_mark(0, '"')
-        local line_count = vim.api.nvim_buf_line_count(0)
+  desc = "Return to last edit position",
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local line_count = vim.api.nvim_buf_line_count(0)
 
-        if mark[1] > 0 and mark[1] <= line_count then
-            pcall(vim.api.nvim_win_set_cursor, 0, mark)
-        end
-    end,
+    if mark[1] > 0 and mark[1] <= line_count then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
 })
 
 -- Auto reload files changed outside Neovim
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-    desc = "Check if file changed outside Neovim",
-    command = "checktime",
+  desc = "Check if file changed outside Neovim",
+  command = "checktime",
 })
 
 -----------------------------------------------------------
@@ -206,43 +206,46 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 -----------------------------------------------------------
 
 vim.api.nvim_create_autocmd("LspAttach", {
-    desc = "LSP keymaps",
-    group = vim.api.nvim_create_augroup("user_lsp_keymaps", { clear = true }),
-    callback = function(event)
-        local map = function(mode, lhs, rhs, desc)
-            vim.keymap.set(mode, lhs, rhs, {
-                buffer = event.buf,
-                silent = true,
-                desc = desc,
-            })
-        end
+  desc = "LSP keymaps",
+  group = vim.api.nvim_create_augroup("user_lsp_keymaps", { clear = true }),
+  callback = function(event)
+    local map = function(mode, lhs, rhs, desc)
+      vim.keymap.set(mode, lhs, rhs, {
+        buffer = event.buf,
+        silent = true,
+        desc = desc,
+      })
+    end
 
-        local ok, telescope_builtin = pcall(require, "telescope.builtin")
+    local ok, telescope_builtin = pcall(require, "telescope.builtin")
 
-        if ok then
-            map("n", "gd", telescope_builtin.lsp_definitions, "Go to definition")
-            map("n", "gi", telescope_builtin.lsp_implementations, "Go to implementation")
-            map("n", "gr", telescope_builtin.lsp_references, "Go to references")
-            map("n", "<leader>lD", telescope_builtin.lsp_type_definitions, "Type definition")
-        else
-            map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-            map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
-            map("n", "gr", vim.lsp.buf.references, "Go to references")
-            map("n", "<leader>lD", vim.lsp.buf.type_definition, "Type definition")
-        end
+    if ok then
+      map("n", "gd", telescope_builtin.lsp_definitions, "Go to definition")
+      map("n", "gi", telescope_builtin.lsp_implementations, "Go to implementation")
+      map("n", "gr", telescope_builtin.lsp_references, "Go to references")
+      map("n", "<leader>lD", telescope_builtin.lsp_type_definitions, "Type definition")
+    else
+      map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+      map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+      map("n", "gr", vim.lsp.buf.references, "Go to references")
+      map("n", "<leader>lD", vim.lsp.buf.type_definition, "Type definition")
+    end
 
-        map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-        map("n", "K", vim.lsp.buf.hover, "Hover documentation")
-        map("n", "<leader>lr", vim.lsp.buf.rename, "Rename symbol")
-        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
+    map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+    map("n", "K", vim.lsp.buf.hover, "Hover documentation")
+    map("n", "<leader>lr", vim.lsp.buf.rename, "Rename symbol")
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
 
-        map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-        map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
-        map("n", "<leader>ld", vim.diagnostic.open_float, "Line diagnostic")
-        map("n", "<leader>lq", vim.diagnostic.setloclist, "Diagnostic list")
-    end,
+    map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+    map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+    map("n", "<leader>ld", vim.diagnostic.open_float, "Line diagnostic")
+    map("n", "<leader>lq", vim.diagnostic.setloclist, "Diagnostic list")
+  end,
 })
 
 require("config.folds")
 require("codelens")
 require("config.lazy")
+
+
+-- https://discuss.kde.org/t/global-menu-not-working-with-some-applications/34158/6
